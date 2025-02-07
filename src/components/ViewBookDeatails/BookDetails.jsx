@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Loader from "../Loader/Loader";
-import { FaHeart, FaCartPlus, FaStar } from "react-icons/fa";
+import { FaHeart, FaCartPlus, FaStar, FaBook, FaLanguage, FaUser } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import RelatedBooks from "./RelatedBooks";
@@ -17,6 +17,10 @@ const BookDetails = () => {
   const [loading, setLoading] = useState(false);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const role = useSelector((state) => state.auth.role);
+
+  // Stock Validation
+  const [selectedQuantity, setSelectedQuantity] = useState(1);
+
 
   useEffect(() => {
     const fetchBookData = async () => {
@@ -85,6 +89,7 @@ const BookDetails = () => {
     id: localStorage.getItem("id"),
     authorization: `Bearer ${localStorage.getItem("token")}`,
     bookid: id,
+    quantity: selectedQuantity,
   };
 
   const handleFavourite = async () => {
@@ -140,6 +145,12 @@ const BookDetails = () => {
     setNewReview({ ...newReview, rating });
   };
 
+
+  //! NEW ADDED
+  const handleQuantityChange = (newQuantity) => {
+    setSelectedQuantity(newQuantity);
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center my-8">
@@ -148,150 +159,197 @@ const BookDetails = () => {
     );
   }
 
+
   return (
     <>
       <Navbar />
       {bookData ? (
-        <div className="px-4 mt-6 md:px-12 py-8 dark:bg-slate-800 dark:text-white flex flex-col gap-8">
-          {/* Book Image and Details Section */}
-          <div className="flex flex-col md:flex-row gap-8  dark:bg-slate-800 dark:text-white">
-            <div className="relative  rounded p-4 h-[60vh] w-full md:w-2/5 flex items-center justify-center">
-              <img
-                className="h-[50vh] rounded bg-black "
-                src={bookData.url}
-                alt={bookData.title || "Book Cover"}
-              />
-              {isLoggedIn && role === "user" && (
-                <div className="absolute  md:right-7 top-4 right-5 flex flex-col space-y-2">
+        <div className="px-4 mt-6 md:px-12 py-20 dark:bg-slate-800 dark:text-white flex flex-col gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+            {/* Left Column - Image */}
+            <div className="md:col-span-2">
+              <div className="relative bg-gray-100 dark:bg-slate-700 rounded-lg p-6 h-[500px] flex items-center justify-center">
+                <img
+                  src={bookData.url}
+                  alt={bookData.title || "Book Cover"}
+                  className="max-h-[400px] rounded-lg shadow-lg object-contain"
+                />
+                {isLoggedIn && role === "user" && (
+                  <div className="absolute top-4 right-4 flex flex-col gap-3">
+                    <button
+                      onClick={handleFavourite}
+                      className="btn btn-circle btn-ghost bg-base-100 hover:bg-red-50"
+                    >
+                      <FaHeart className="text-2xl text-red-500" />
+                    </button>
+                    <button
+                      onClick={handleCart}
+                      className="btn btn-circle btn-ghost bg-base-100 hover:bg-blue-50"
+                    >
+                      <FaCartPlus className="text-2xl text-blue-500" />
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Right Column - Details */}
+            <div className="md:col-span-3 space-y-6">
+              {/* Book Title */}
+              <h1 className="text-4xl font-bold text-black dark:text-white">
+                {bookData.name || "Not Available"}
+              </h1>
+
+              {/* Book Details Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+                  <FaUser className="text-lg" />
+                  <span className="font-medium">Author:</span>
+                  <span>{bookData.author}</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+                  <FaLanguage className="text-lg" />
+                  <span className="font-medium">Language:</span>
+                  <span>{bookData.language}</span>
+                </div>
+              </div>
+
+              {/* Description */}
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-xl font-semibold">
+                  <FaBook />
+                  <h2>Description</h2>
+                </div>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                  {bookData.description}
+                </p>
+              </div>
+
+              {/* Pricing Section */}
+              <div className="bg-gray-50 dark:bg-slate-700 rounded-lg p-6 space-y-4">
+                <div className="flex items-center gap-4">
+                  <span className="line-through text-gray-500 text-xl">
+                    ₹{bookData.price}
+                  </span>
+                  <span className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 px-3 py-1 rounded-full text-sm font-medium">
+                    {bookData.discountPercent}% OFF
+                  </span>
+                </div>
+                <div className="text-3xl font-bold text-purple-600 dark:text-purple-400">
+                  ₹{bookData.discountedPrice}
+                </div>
+
+                {/* Quantity and Cart */}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-4">
+                    <span className="font-medium">Quantity:</span>
+                    <QuantitySelector
+                      maxQuantity={bookData.stock}
+                      onQuantityChange={handleQuantityChange}
+                    />
+                  </div>
                   <button
-                    className="bg-white text-red-600 rounded-full text-2xl p-2 shadow-md"
-                    onClick={handleFavourite}
-                  >
-                    <FaHeart />
-                  </button>
-                  <button
-                    className="bg-white text-blue-600 rounded-full text-2xl p-2 shadow-md"
                     onClick={handleCart}
+                    className="btn btn-primary btn-block gap-2"
                   >
-                    <FaCartPlus />
+                    <FaCartPlus className="text-xl" />
+                    Add to Cart
                   </button>
                 </div>
-              )}
-            </div>
-            <div className="p-4 w-full md:w-3/5 space-y-4">
-              <h1 className="font-semibold text-3xl text-black dark:text-white">
-                {bookData.name || "not available"}
-              </h1>
-              <p className="text-lg text-black dark:text-white">by : {bookData.author}</p>
-              <p className="text-sm text-slate-900 dark:text-zinc-300 mt-4">
-                {bookData.description}
-              </p>
-              <p className="text-sm text-slate-900 dark:text-zinc-300 mt-2">
-                Language: {bookData.language}
-              </p>
-              <p className="font-semibold text-xl text-black dark:text-white mt-4">
-                <span className="line-through text-black dark:text-white">₹{bookData.price}</span>{" "}
-                <span className="text-green-600 ml-3 ">
-                  {bookData.discountPercent}%
-                </span>
-              </p>
-              <p className="font-semibold text-xl  text-black dark:text-white mt-4">
-                Price: ₹{bookData.discountedPrice}
-              </p>
-              <p className="font-semibold text-xl  text-black dark:text-white mt-4">
-                Stock left: {bookData.stock}
-              </p>
-                <QuantitySelector maxQuantity={10}  />
-              <button
-                className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 mt-2"
-                onClick={handleCart}
-              >
-                Add to Cart
-              </button>
+              </div>
             </div>
           </div>
 
           {/* Reviews Section */}
-          <div className="bg-slate-100 text-black p-4 rounded-lg dark:bg-slate-700 dark:text-white">
-            <h2 className="text-2xl font-semibold dark:text-white text-black">Reviews</h2>
-            <div className="space-y-4 mt-4">
-              {reviews.length > 0 ? (
-                reviews.map((review, index) => (
-                  <div key={index} className="p-4  dark:bg-slate-600 rounded-lg">
-                    <div className="flex items-center space-x-4 ">
-                      <img
-                        src={review.user.avatar}
-                        alt={review.user.name}
-                        className="w-10 h-10 rounded-full object-cover"
-                      />
-                      <div>
-                        <div className="font-semibold text-black dark:text-white ">
-                          {review.user.name}
+          <div className="card bg-base-100 dark:bg-slate-700 shadow-xl">
+            <div className="card-body">
+              <h2 className="card-title text-2xl mb-6">Customer Reviews</h2>
+              
+              <div className="space-y-6">
+                {reviews.length > 0 ? (
+                  reviews.map((review, index) => (
+                    <div key={index} className="bg-gray-50 dark:bg-slate-600 rounded-lg p-4">
+                      <div className="flex items-start gap-4">
+                        <img
+                          src={review.user.avatar}
+                          alt={review.user.name}
+                          className="w-12 h-12 rounded-full object-cover"
+                        />
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-lg">{review.user.name}</h3>
+                          <div className="flex items-center gap-1 my-2">
+                            {[...Array(5)].map((_, i) => (
+                              <FaStar
+                                key={i}
+                                className={`${
+                                  i < review.rating
+                                    ? "text-yellow-400"
+                                    : "text-gray-300 dark:text-gray-600"
+                                }`}
+                              />
+                            ))}
+                          </div>
+                          <p className="text-gray-700 dark:text-gray-300">{review.text}</p>
                         </div>
-                        <div className="flex items-center space-x-2">
-                          {[...Array(review.rating)].map((_, i) => (
-                            <FaStar key={i} className="text-yellow-400" />
-                          ))}
-                        </div>
-                        <p className="text-sm text-slate-700 dark:text-white mt-2">
-                          {review.text}
-                        </p>
                       </div>
                     </div>
-                  </div>
-                ))
-              ) : (
-                <p className="text-sm text-zinc-400">
-                  No reviews yet. Be the first to review this book!
-                </p>
+                  ))
+                ) : (
+                  <p className="text-gray-500 dark:text-gray-400 text-center">
+                    No reviews yet. Be the first to review this book!
+                  </p>
+                )}
+              </div>
+
+              {/* Review Form */}
+              {isLoggedIn && role === "user" && (
+                <div className="mt-8 border-t dark:border-gray-600 pt-6">
+                  <h3 className="text-xl font-semibold mb-4">Write a Review</h3>
+                  <form onSubmit={handleReviewSubmit} className="space-y-4">
+                    <textarea
+                      value={newReview.text}
+                      onChange={(e) => setNewReview({ ...newReview, text: e.target.value })}
+                      className="textarea textarea-bordered w-full h-32"
+                      placeholder="Share your thoughts about this book..."
+                      required
+                    />
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium">Rating:</span>
+                      {[1, 2, 3, 4, 5].map((rating) => (
+                        <button
+                          key={rating}
+                          type="button"
+                          onClick={() => handleRatingClick(rating)}
+                          className="btn btn-ghost btn-sm p-0"
+                        >
+                          <FaStar
+                            className={`w-6 h-6 ${
+                              newReview.rating >= rating
+                                ? "text-yellow-400"
+                                : "text-gray-300 dark:text-gray-600"
+                            }`}
+                          />
+                        </button>
+                      ))}
+                    </div>
+                    <button type="submit" className="btn btn-primary">
+                      Submit Review
+                    </button>
+                  </form>
+                </div>
               )}
             </div>
-            {isLoggedIn && role === "user" && (
-              <form onSubmit={handleReviewSubmit} className="mt-4 space-y-4">
-                <textarea
-                  value={newReview.text}
-                  onChange={(e) =>
-                    setNewReview({ ...newReview, text: e.target.value })
-                  }
-                  className="w-full p-2 rounded dark:bg-slate-600 "
-                  placeholder="Write your review here..."
-                  required
-                ></textarea>
-
-                {/* Star Rating */}
-                <div className="flex items-center space-x-2 mt-4">
-                  {[1, 2, 3, 4, 5].map((rating) => (
-                    <FaStar
-                      key={rating}
-                      className={`cursor-pointer text-xl ${
-                        newReview.rating >= rating
-                          ? "text-yellow-400"
-                          : "text-zinc-500"
-                      }`}
-                      onClick={() => handleRatingClick(rating)} // Handle star click
-                    />
-                  ))}
-                </div>
-
-                <button
-                  type="submit"
-                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mt-4"
-                >
-                  Submit Review
-                </button>
-              </form>
-            )}
           </div>
         </div>
       ) : (
         <div className="flex items-center justify-center my-8">
-          <Loader />
+          <span className="loading loading-spinner loading-lg"></span>
         </div>
       )}
-      <div className="bg-white  rounded-lg dark:bg-slate-800 dark:text-white">
-      <RelatedBooks  />
+      
+      <div className="bg-base-100 dark:bg-slate-800">
+        <RelatedBooks />
       </div>
-     
     </>
   );
 };

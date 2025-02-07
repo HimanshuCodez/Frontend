@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Minus, Plus } from "lucide-react"; // Lucide icons for + and -
 
-const QuantitySelector = ({ maxQuantity = 10, onQuantityChange }) => {
+const QuantitySelector = ({ maxQuantity, onQuantityChange }) => {
   const [quantity, setQuantity] = useState(1);
-
+  
   // Handle increment
   const handleIncrement = () => {
     if (quantity < maxQuantity) {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { FiTrash2, FiShoppingCart } from "react-icons/fi";
+import { FiTrash2, FiShoppingCart, FiBox, FiCreditCard, FiTruck } from "react-icons/fi";
 import toast from "react-hot-toast";
 import Loader from "./Loader/Loader";
 import {loadStripe} from '@stripe/stripe-js';
@@ -52,7 +52,7 @@ const Cart = () => {
   };
 
   useEffect(() => {
-    const totalAmount = cart.reduce((sum, item) => sum + item.price, 0);
+    const totalAmount = cart.reduce((sum, item) => sum + item.discountedPrice*item.quantity, 0);
     setTotal(totalAmount);
   }, [cart]);
 
@@ -75,10 +75,11 @@ const Cart = () => {
       const formattedCartItems = cart.map(item => ({
         name: item.name || 'Untitled Book',
         price: item.price,
+        discountedPrice: item.discountedPrice,
         url: item.url,
         description: item.description || `Book ID: ${item._id}`, 
-        quantity: 1,
-        _id: item._id
+        quantity: item.quantity,
+        _id: item._id,
       }));
   
       
@@ -107,7 +108,6 @@ const Cart = () => {
       }
     } catch (error) {
       console.error('Checkout error:', error);
-      // More detailed error message
       if (error.response?.data?.error) {
         toast.error(`Checkout failed: ${error.response.data.error}`);
       } else {
@@ -117,7 +117,8 @@ const Cart = () => {
   };
   
   // Also add this debug useEffect to check cart data when it's loaded
- 
+  
+  console.log("Cart", cart);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-slate-800 dark:to-slate-900 dark:text-white">
@@ -140,7 +141,7 @@ const Cart = () => {
             <FiShoppingCart className="w-20 h-20 text-gray-400 mx-auto mb-4" />
             <p className="text-gray-600 dark:text-gray-300 text-lg mb-4">Your cart is empty</p>
             <Link 
-              to="/" 
+              to="/get-all-books" 
               className="inline-block bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors duration-200"
             >
               Continue Shopping
@@ -166,8 +167,11 @@ const Cart = () => {
                           {item.name|| "No name "}
                         </h2>
                         <p className="text-purple-600 dark:text-purple-400 text-lg font-medium mb-4">
-                          {formatCurrency(item.price)}
+                          {formatCurrency(item.quantity*item.discountedPrice)} <span className= " mx-3 line-through text-slate-600">{formatCurrency(item.price*item.quantity)}</span>
                         </p>
+                        <div className="flex items-center gap-2 mb-4">
+                          <FiBox /> Quantity: {item.quantity}
+                        </div>
                         <button
                           onClick={() => removeFromCart(item._id)}
                           className="inline-flex items-center text-red-500 hover:text-red-700 transition-colors duration-200"
@@ -191,20 +195,22 @@ const Cart = () => {
                     <span>{formatCurrency(total)}</span>
                   </div>
                   <div className="flex justify-between text-base text-gray-600 dark:text-gray-300">
-                    <span>Shipping</span>
+                  <span className="flex items-center gap-2">
+                      <FiTruck /> Shipping
+                    </span>
                     <span>Free</span>
                   </div>
                   <div className="border-t border-gray-200 dark:border-gray-600 pt-4">
                     <div className="flex justify-between text-lg font-bold">
-                      <span>Total</span>
+                      <span>Total :</span>
                       <span className="text-purple-600">{formatCurrency(total)}</span>
                     </div>
                   </div>
                   <button
                     onClick={handleCheckout}
-                    className="w-full bg-purple-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-purple-700 transition-colors duration-200 text-lg font-semibold flex items-center justify-center"
+                    className="w-full bg-purple-600 text-white px-6  py-3 rounded-lg shadow-lg hover:bg-purple-700 transition-colors duration-200 text-lg font-semibold flex items-center justify-center"
                   >
-                    Proceed to Checkout
+                   <FiCreditCard className="mx-4" /> Proceed to Checkout
                   </button>
                 </div>
               </div>

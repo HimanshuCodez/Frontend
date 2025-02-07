@@ -35,7 +35,7 @@ function Login() {
         localStorage.setItem("id", response.data.id);
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("role", response.data.role);
-        navigate("/profile");
+        navigate("/");
       }
     } catch (err) {
       const errorMessage = err.response

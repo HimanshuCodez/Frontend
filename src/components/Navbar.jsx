@@ -171,7 +171,7 @@ const Navbar = () => {
    
              {!loading && !error && results.map((book) => (
                <Link
-                 to={`/books/${book._id}`}
+                 to={`/view-book-details/${book._id}`}
                  key={book._id || book.id}
                  className="block px-4 py-2 hover:bg-gray-100"
                >
