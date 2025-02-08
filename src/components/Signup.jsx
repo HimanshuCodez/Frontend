@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
-import Login from './Login'; // Import the Login component
+
 
 function Signup() {
   // State to hold form values
@@ -34,7 +34,7 @@ function Signup() {
 
     try {
       // Send the signup data to the backend
-      const response = await axios.post("https://backend-h759.onrender.com/api/v1/sign-up", values);
+      const response = await axios.post("http://localhost:4000/api/v1/sign-up", values);
 
       if (response.data) {
         toast.success("Signup Successful");

@@ -3,34 +3,33 @@ import { Minus, Plus } from "lucide-react"; // Lucide icons for + and -
 
 const QuantitySelector = ({ maxQuantity, onQuantityChange }) => {
   const [quantity, setQuantity] = useState(1);
-  
-  // Handle increment
+
   const handleIncrement = () => {
     if (quantity < maxQuantity) {
       const newQuantity = quantity + 1;
       setQuantity(newQuantity);
-      onQuantityChange(newQuantity); // Notify parent component
+      onQuantityChange(newQuantity);
     }
   };
 
-  // Handle decrement
   const handleDecrement = () => {
     if (quantity > 1) {
       const newQuantity = quantity - 1;
       setQuantity(newQuantity);
-      onQuantityChange(newQuantity); // Notify parent component
+      onQuantityChange(newQuantity);
     }
   };
 
   return (
-    <div className="join">
+    <div className="flex items-center space-x-2 bg-gray-100 p-2 rounded-lg shadow-md w-fit">
       {/* Minus Button */}
       <button
         onClick={handleDecrement}
-        className="btn btn-outline join-item"
+        className="bg-gray-200 text-gray-700 p-3 rounded-full hover:bg-gray-300 transition duration-200 disabled:opacity-50"
+        disabled={quantity === 1}
         aria-label="Decrease quantity"
       >
-        <Minus className="w-4 h-4" />
+        <Minus className="w-5 h-5" />
       </button>
 
       {/* Quantity Input */}
@@ -40,17 +39,18 @@ const QuantitySelector = ({ maxQuantity, onQuantityChange }) => {
         min="1"
         max={maxQuantity}
         readOnly
-        className="input input-bordered join-item w-16 text-center"
+        className="w-12 text-center font-semibold bg-white border border-gray-300 rounded-md"
         aria-label="Selected quantity"
       />
 
       {/* Plus Button */}
       <button
         onClick={handleIncrement}
-        className="btn btn-outline join-item"
+        className="bg-gray-200 text-gray-700 p-3 rounded-full hover:bg-gray-300 transition duration-200 disabled:opacity-50"
+        disabled={quantity === maxQuantity}
         aria-label="Increase quantity"
       >
-        <Plus className="w-4 h-4" />
+        <Plus className="w-5 h-5" />
       </button>
     </div>
   );

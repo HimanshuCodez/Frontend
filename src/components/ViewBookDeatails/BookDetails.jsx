@@ -27,7 +27,7 @@ const BookDetails = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `https://backend-h759.onrender.com/api/v1/get-book-by-id/${id}`
+          `http://localhost:4000/api/v1/get-book-by-id/${id}`
         );
         setBookData(response.data.data);
 
@@ -95,7 +95,7 @@ const BookDetails = () => {
   const handleFavourite = async () => {
     try {
       const response = await axios.put(
-        "https://backend-h759.onrender.com/api/v1/add-to-favourite",
+        "http://localhost:4000/api/v1/add-to-favourite",
         {},
         { headers }
       );
@@ -109,7 +109,7 @@ const BookDetails = () => {
   const handleCart = async () => {
     try {
       const response = await axios.put(
-        "https://backend-h759.onrender.com/api/v1/add-to-cart",
+        "http://localhost:4000/api/v1/add-to-cart",
         {},
         { headers }
       );
@@ -127,7 +127,7 @@ const BookDetails = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://backend-h759.onrender.com/api/v1/add-review",
+        "http://localhost:4000/api/v1/add-review",
         { bookId: id, ...newReview },
         { headers }
       );

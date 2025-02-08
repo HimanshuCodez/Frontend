@@ -11,13 +11,9 @@ import Kdrama from "../components/BookCategory.jsx/Kdrama";
 import Testimonial from "../components/Additionals.jsx/gifs";
 
 
-
 const Home = () => {
   return (
     <>
-      
-   
-
       <Navbar />  
       <Banner />
       <RecentlyAdded />
@@ -28,8 +24,6 @@ const Home = () => {
       <Testimonial/>
       <AuthorSlider />
       <Footer />
-    
-      
     </>
   );
 };

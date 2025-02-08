@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { authActions } from "../store/auth";
- // Icon for user profile in case avatar is unavailable
 import { TbLogout } from "react-icons/tb";
 
 
@@ -33,7 +32,7 @@ const Navbar = () => {
       
       try {
        
-        const response = await fetch(`https://backend-h759.onrender.com/api/v1/search?q=${encodeURIComponent(searchQuery.trim())}`);
+        const response = await fetch(`http://localhost:4000/api/v1/search?q=${encodeURIComponent(searchQuery.trim())}`);
         
         if (!response.ok) {
           const contentType = response.headers.get('content-type');
@@ -276,7 +275,7 @@ const Navbar = () => {
               >
                 <img
                   src={
-                    "https://imgs.search.brave.com/3L58XVCErl9Jwact_9hf94wgnvkan16Acz9ugZpCIj0/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9wbmdz/ZXQuY29tL2ltYWdl/cy9pbWFnZS1vZi1w/cmluY2Vzcy1idWJi/bGVndW0tcHJvZmls/ZS1wcmVzYWxlLXB1/cnBsZS1sZWlzdXJl/LWFjdGl2aXRpZXMt/YmFkbWludG9uLXN0/b21hY2gtdHJhbnNw/YXJlbnQtcG5nLTY0/NTE2OS5wbmc" ||
+                    "https://i.pinimg.com/236x/cd/4b/d9/cd4bd9b0ea2807611ba3a67c331bff0b.jpg" ||
                     "/default-avatar.jpg"
                   }
                   alt="Profile"
