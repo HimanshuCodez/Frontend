@@ -32,7 +32,7 @@ const Navbar = () => {
       
       try {
        
-        const response = await fetch(`http://localhost:4000/api/v1/search?q=${encodeURIComponent(searchQuery.trim())}`);
+        const response = await fetch(`https://backend-h759.onrender.com/api/v1/search?q=${encodeURIComponent(searchQuery.trim())}`);
         
         if (!response.ok) {
           const contentType = response.headers.get('content-type');
