@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Loader from "../Loader/Loader";
-import { FaHeart, FaCartPlus, FaStar, FaBook, FaLanguage, FaUser } from "react-icons/fa";
+import { FaHeart, FaCartPlus, FaStar, FaBook, FaLanguage, FaUser,FaEdit, } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import RelatedBooks from "./RelatedBooks";
@@ -27,7 +28,7 @@ const BookDetails = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `https://backend-h759.onrender.com/api/v1/get-book-by-id/${id}`
+          `http://localhost:4000/api/v1/get-book-by-id/${id}`
         );
         setBookData(response.data.data);
 
@@ -95,7 +96,7 @@ const BookDetails = () => {
   const handleFavourite = async () => {
     try {
       const response = await axios.put(
-        "https://backend-h759.onrender.com/api/v1/add-to-favourite",
+        "http://localhost:4000/api/v1/add-to-favourite",
         {},
         { headers }
       );
@@ -109,7 +110,7 @@ const BookDetails = () => {
   const handleCart = async () => {
     try {
       const response = await axios.put(
-        "https://backend-h759.onrender.com/api/v1/add-to-cart",
+        "http://localhost:4000/api/v1/add-to-cart",
         {},
         { headers }
       );
@@ -127,7 +128,7 @@ const BookDetails = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://backend-h759.onrender.com/api/v1/add-review",
+        "http://localhost:4000/api/v1/add-review",
         { bookId: id, ...newReview },
         { headers }
       );
@@ -174,7 +175,7 @@ const BookDetails = () => {
                   alt={bookData.title || "Book Cover"}
                   className="max-h-[400px] rounded-lg shadow-lg object-contain"
                 />
-                {isLoggedIn && role === "user" && (
+                {isLoggedIn === true && role === "user" && (
                   <div className="absolute top-4 right-4 flex flex-col gap-3">
                     <button
                       onClick={handleFavourite}
@@ -187,6 +188,22 @@ const BookDetails = () => {
                       className="btn btn-circle btn-ghost bg-base-100 hover:bg-blue-50"
                     >
                       <FaCartPlus className="text-2xl text-blue-500" />
+                    </button>
+                  </div>
+                )}
+                {isLoggedIn ===true  && role === "admin" && (
+                  <div className="absolute top-4 right-4 flex flex-col gap-3">
+                    <button
+                      onClick={handleFavourite}
+                      className="btn btn-circle btn-ghost bg-base-100 hover:bg-red-50"
+                    >
+                     <FaEdit />
+                    </button>
+                    <button
+                      onClick={handleCart}
+                      className="btn btn-circle btn-ghost bg-base-100 hover:bg-blue-50"
+                    >
+                      <MdDelete />
                     </button>
                   </div>
                 )}

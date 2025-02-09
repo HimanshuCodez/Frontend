@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import axios from 'axios';
 import Cards from './Cards'
-
 import {Link} from 'react-router-dom'
 import { useState } from 'react';
 import Loader from './Loader/Loader';
@@ -12,7 +11,7 @@ const AllBook = () => {
     // Fetch data from API
     const fetch = async () => {
       const response = await axios.get(
-        "https://backend-h759.onrender.com/api/v1/get-all-books"
+        "http://localhost:4000/api/v1/get-all-books"
       );
      setData(response.data.data);
     };

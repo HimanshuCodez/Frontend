@@ -20,7 +20,7 @@ const Success = () => {
         };
 
         await axios.post(
-          "https://backend-h759.onrender.com/api/v1/place-order",
+          "http://localhost:4000/api/v1/place-order",
           { session_id: sessionId },
           { headers }
         );

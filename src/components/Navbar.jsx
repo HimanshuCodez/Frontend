@@ -13,14 +13,17 @@ const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const element = document.documentElement;
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const user = useSelector((state) => state.auth.user); // Assuming `user` has profile info like avatar
+  const role = useSelector((state) => state.auth.role);
+  const user = useSelector((state) => state.auth.user);
   const location = useLocation();
    const [query, setQuery] = useState("");
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const debounceTimeout = useRef(null);
-  
+  if(isLoggedIn == true && role === "admin"){
+    
+  }
     const fetchSearchResults = async (searchQuery) => {
       if (!searchQuery?.trim()) {
         setResults([]);
@@ -32,7 +35,7 @@ const Navbar = () => {
       
       try {
        
-        const response = await fetch(`https://backend-h759.onrender.com/api/v1/search?q=${encodeURIComponent(searchQuery.trim())}`);
+        const response = await fetch(`http://localhost:4000/api/v1/search?q=${encodeURIComponent(searchQuery.trim())}`);
         
         if (!response.ok) {
           const contentType = response.headers.get('content-type');
