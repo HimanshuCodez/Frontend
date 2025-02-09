@@ -18,6 +18,9 @@ import AdminBookRequests from "./components/Admin/bookRequest";
 import UserBookRequest from "./components/RequestBook";
 import Success from "./components/success";
 import Failed from "./components/Failed";
+import AllOrders from "./components/Admin/AllOrders";
+import NotFound from "./components/Additionals.jsx/NotFound";
+import AdminAddBook from "./components/Admin/AddBook";
 // import Orders from "./components/Orders";
 
 
@@ -41,16 +44,19 @@ const App = () => {
     <>
       <div className="dark:bg-slate-900 dark:text-white">
         <Routes>
+          <Route path="*" element={<NotFound />} />
           <Route path="/" element={<Home />} />
           <Route path="/get-all-books" element={<AllBooks />} />
           <Route path="/recently-added" element={<RecentlyAdded />} />
           <Route path="/view-book-details" element={<BookDetails />} />
-          <Route path="/admin-book-requests" element={<AdminBookRequests />} />
-          <Route path="/bookRequest" element={<UserBookRequest />} />
+        
           <Route path="/sign-up" element={<Signup />} />
+          {role === "admin" ? <Route path="/admin/requests" element={<AdminBookRequests />} /> : <Route path="/bookRequest" element={<UserBookRequest />} />}
+          {role === "admin" && <Route path="/add-book" element={<AdminAddBook/>} />}
+
           <Route path="/sign-in" element={<Login />} />
           <Route path="/profile" element={<Profile />} >
-          <Route index element={<Favourites/>}/ >
+          {role === "user" ? <Route index element={<Favourites/>}/ > : <Route index element={<AllOrders/>}/ >}
           <Route path="/profile/orderHistory" element={<UserOrderHistory/>}/ >
           <Route path="/profile/settings" element={<Settings/>}/ >
 

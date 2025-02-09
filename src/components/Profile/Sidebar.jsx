@@ -10,7 +10,7 @@ const Sidebar = ({ profile }) => {
    const dispatch = useDispatch();
    const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(false); // Changed to false by default for mobile
-
+const role = useSelector((state)=>state.auth.role)
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
@@ -56,7 +56,7 @@ const Sidebar = ({ profile }) => {
           </div>
 
           {/* Sidebar Navigation Links */}
-          <div className="mt-4 flex-grow">
+          {role === "user" && <div className="mt-4 flex-grow">
             <ul className="space-y-3">
               <li>
                 <Link
@@ -65,6 +65,15 @@ const Sidebar = ({ profile }) => {
                   onClick={() => window.innerWidth < 768 && toggleSidebar()}
                 >
                   Favourites
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/request-book"
+                  className="block p-3 rounded-md hover:bg-gray-700 transition-all duration-300 text-sm font-medium"
+                  onClick={() => window.innerWidth < 768 && toggleSidebar()}
+                >
+                  Request Book
                 </Link>
               </li>
               <li>
@@ -86,7 +95,47 @@ const Sidebar = ({ profile }) => {
                 </Link>
               </li>
             </ul>
-          </div>
+          </div>}
+          {role === "admin" && <div className="mt-4 flex-grow">
+            <ul className="space-y-3">
+              <li>
+                <Link
+                  to="/profile"
+                  className="block p-3 rounded-md hover:bg-gray-700 transition-all duration-300 text-sm font-medium"
+                  onClick={() => window.innerWidth < 768 && toggleSidebar()}
+                >
+                 All Orders
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/add-book"
+                  className="block p-3 rounded-md hover:bg-gray-700 transition-all duration-300 text-sm font-medium"
+                  onClick={() => window.innerWidth < 768 && toggleSidebar()}
+                >
+                 Add Book
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/profile/settings"
+                  className="block p-3 rounded-md hover:bg-gray-700 transition-all duration-300 text-sm font-medium"
+                  onClick={() => window.innerWidth < 768 && toggleSidebar()}
+                >
+                  Generate Report
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/admin/requests"
+                  className="block p-3 rounded-md hover:bg-gray-700 transition-all duration-300 text-sm font-medium"
+                  onClick={() => window.innerWidth < 768 && toggleSidebar()}
+                >
+                  Users Books Requests
+                </Link>
+              </li>
+            </ul>
+          </div>}
 
           {/* Logout Button */}
           <div className="pt-4 border-t border-gray-700">
