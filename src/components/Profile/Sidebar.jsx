@@ -100,7 +100,7 @@ const role = useSelector((state)=>state.auth.role)
             <ul className="space-y-3">
               <li>
                 <Link
-                  to="/profile"
+                  to="/get-all-orders"
                   className="block p-3 rounded-md hover:bg-gray-700 transition-all duration-300 text-sm font-medium"
                   onClick={() => window.innerWidth < 768 && toggleSidebar()}
                 >

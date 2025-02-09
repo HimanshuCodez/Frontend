@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate,Link } from "react-router-dom";
 import axios from "axios";
 import Loader from "../Loader/Loader";
 import { FaHeart, FaCartPlus, FaStar, FaBook, FaLanguage, FaUser,FaEdit, } from "react-icons/fa";
@@ -12,6 +12,7 @@ import QuantitySelector from "./QuantitySelector";
 
 const BookDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate()
   const [bookData, setBookData] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState({ text: "", rating: 0 });
@@ -160,7 +161,14 @@ const BookDetails = () => {
     );
   }
 
-
+const deleteBook = async () => {
+ const response =  await axios.delete("http://localhost:4000/api/v1/delete-book",{headers})
+ console.log(response.data)
+ toast.success("Book Deleted")
+ navigate("/get-all-books")
+ 
+}
+ 
   return (
     <>
       <Navbar />
@@ -193,14 +201,14 @@ const BookDetails = () => {
                 )}
                 {isLoggedIn ===true  && role === "admin" && (
                   <div className="absolute top-4 right-4 flex flex-col gap-3">
-                    <button
-                      onClick={handleFavourite}
+                    <Link
+                      to={`/update-book/${id}`}
                       className="btn btn-circle btn-ghost bg-base-100 hover:bg-red-50"
                     >
                      <FaEdit />
-                    </button>
+                    </Link>
                     <button
-                      onClick={handleCart}
+                      onClick={deleteBook}
                       className="btn btn-circle btn-ghost bg-base-100 hover:bg-blue-50"
                     >
                       <MdDelete />

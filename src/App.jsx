@@ -21,6 +21,7 @@ import Failed from "./components/Failed";
 import AllOrders from "./components/Admin/AllOrders";
 import NotFound from "./components/Additionals.jsx/NotFound";
 import AdminAddBook from "./components/Admin/AddBook";
+import UpdateBook from "./components/Admin/UpdateBook";
 // import Orders from "./components/Orders";
 
 
@@ -53,13 +54,14 @@ const App = () => {
           <Route path="/sign-up" element={<Signup />} />
           {role === "admin" ? <Route path="/admin/requests" element={<AdminBookRequests />} /> : <Route path="/bookRequest" element={<UserBookRequest />} />}
           {role === "admin" && <Route path="/add-book" element={<AdminAddBook/>} />}
+          {role === "admin" && <Route path="/get-all-orders" element={<AllOrders/>} />}
 
           <Route path="/sign-in" element={<Login />} />
+          <Route path="/update-book/:id" element={<UpdateBook/>} />
           <Route path="/profile" element={<Profile />} >
           {role === "user" ? <Route index element={<Favourites/>}/ > : <Route index element={<AllOrders/>}/ >}
           <Route path="/profile/orderHistory" element={<UserOrderHistory/>}/ >
           <Route path="/profile/settings" element={<Settings/>}/ >
-
           </Route>
 
           <Route path="/cart" element={<Cart />} />
