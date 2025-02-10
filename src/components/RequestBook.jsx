@@ -1,130 +1,117 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { toast } from "react-hot-toast";
-import { CheckCircle, Mail, Loader2, Package, Clock } from "lucide-react";
 
-const OrderSuccess = () => {
-  const [loading, setLoading] = useState(false);
-  const [orderId, setOrderId] = useState(null);
+const RequestBook = () => {
+  const [formData, setFormData] = useState({
+    bookTitle: "",
+    author: "",
+    isbn: "",
+    message: "",
+  });
+  const [requests, setRequests] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [responseMessage, setResponseMessage] = useState("");
 
   useEffect(() => {
-    const fetchOrderHistory = async () => {
-      try {
-        const headers = {
-          id: localStorage.getItem("id"),
-          authorization: `Bearer ${localStorage.getItem("token")}`,
-        };
-
-        const response = await axios.get(
-          "http://localhost:4000/api/v1/get-order-history",
-          { headers }
-        );
-        
-        if (response.data.data.length > 0) {
-          setOrderId(response.data.data[0]._id);
-        }
-      } catch (error) {
-        console.error("Error fetching order history:", error);
-      }
-    };
-
-    fetchOrderHistory();
+    fetchRequests();
   }, []);
 
-  const handleSendInvoice = async () => {
-    if (!orderId) {
-      toast.error("No order found!");
-      return;
-    }
-
-    setLoading(true);
+  const fetchRequests = async () => {
     try {
-      const headers = {
-        id: localStorage.getItem("id"),
-        authorization: `Bearer ${localStorage.getItem("token")}`,
-      };
-
-      const response = await axios.post(
-        "http://localhost:4000/api/v1/send-invoice",
-        { order_id: orderId },
-        { headers }
-      );
-
-      if (response.data.success) {
-        toast.success("Invoice sent to your email!");
-      } else {
-        throw new Error(response.data.message);
-      }
+      const token = localStorage.getItem("token");
+      const res = await axios.get("http://localhost:4000/api/v1/user-requests", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setRequests(res.data);
     } catch (error) {
-      console.error("Error sending invoice:", error);
-      toast.error("Failed to send invoice. Try again.");
+      setError(error.response?.data?.message || "Failed to fetch requests.");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.post(
+        "http://localhost:4000/api/v1/request-book",
+        formData,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setResponseMessage(res.data.message);
+      setFormData({ bookTitle: "", author: "", isbn: "", message: "" });
+      fetchRequests(); // Refresh requests list after submission
+    } catch (error) {
+      setResponseMessage(error.response?.data?.error || "Request failed.");
+    }
   };
 
   return (
-    <div className="min-h-screen bg-base-200 flex items-center justify-center p-4">
-      <div className="card w-full max-w-md bg-base-100 shadow-xl">
-        <div className="card-body items-center text-center">
-          <div className="w-24 h-24 rounded-full bg-success/20 flex items-center justify-center mb-4">
-            <CheckCircle className="w-12 h-12 text-success" />
-          </div>
-          
-          <h2 className="card-title text-2xl font-bold text-success mb-4">
-            Order Successful!
-          </h2>
+    <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
+      <h2 className="text-xl font-semibold mb-4">Request a Book</h2>
+      {responseMessage && <p className="text-green-600">{responseMessage}</p>}
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="bookTitle"
+          value={formData.bookTitle}
+          onChange={handleChange}
+          placeholder="Book Title"
+          className="w-full p-2 border rounded mb-3"
+          required
+        />
+        <input
+          type="text"
+          name="author"
+          value={formData.author}
+          onChange={handleChange}
+          placeholder="Author"
+          className="w-full p-2 border rounded mb-3"
+          required
+        />
+        <input
+          type="text"
+          name="isbn"
+          value={formData.isbn}
+          onChange={handleChange}
+          placeholder="ISBN (13 digits)"
+          className="w-full p-2 border rounded mb-3"
+          required
+        />
+        <textarea
+          name="message"
+          value={formData.message}
+          onChange={handleChange}
+          placeholder="Optional message"
+          className="w-full p-2 border rounded mb-3"
+        />
+        <button type="submit" className="bg-blue-500 text-white p-2 rounded">
+          Submit Request
+        </button>
+      </form>
 
-          <div className="alert alert-success mb-6">
-            <div>
-              Thank you for your purchase! Your order has been successfully placed and confirmed.
-            </div>
-          </div>
-
-          <div className="stats shadow mb-6">
-            <div className="stat">
-              <div className="stat-figure text-primary">
-                <Package className="w-8 h-8" />
-              </div>
-              <div className="stat-title">Order ID</div>
-              <div className="stat-value text-primary text-lg">
-                #{orderId ? orderId.slice(-8) : "Loading..."}
-              </div>
-            </div>
-            
-            <div className="stat">
-              <div className="stat-figure text-secondary">
-                <Clock className="w-8 h-8" />
-              </div>
-              <div className="stat-title">Status</div>
-              <div className="stat-value text-secondary text-lg">Processing</div>
-            </div>
-          </div>
-
-          <p className="text-base-content/80 mb-6">
-            A confirmation email has been sent to your registered email address.
-          </p>
-
-          <button 
-            className={`btn btn-primary w-full max-w-xs ${loading ? 'loading' : ''}`}
-            onClick={handleSendInvoice}
-            disabled={loading}
-          >
-            {loading ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Sending Invoice...
-              </>
-            ) : (
-              <>
-                <Mail className="w-4 h-4 mr-2" />
-                Get Invoice
-              </>
-            )}
-          </button>
+      <h2 className="text-xl font-semibold mt-6">Your Book Requests</h2>
+      {loading && <p>Loading...</p>}
+      {error && <p className="text-red-600">{error}</p>}
+      {!loading && !requests.length && <p>No requests found.</p>}
+      {requests.map((req) => (
+        <div key={req._id} className="p-4 border rounded mb-3">
+          <p><strong>Book:</strong> {req.bookTitle}</p>
+          <p><strong>Author:</strong> {req.author}</p>
+          <p><strong>ISBN:</strong> {req.isbn}</p>
+          <p><strong>Status:</strong> {req.status}</p>
+          <p><strong>Requested On:</strong> {new Date(req.createdAt).toLocaleDateString()}</p>
+          {req.message && <p><strong>Message:</strong> {req.message}</p>}
         </div>
-      </div>
+      ))}
     </div>
   );
 };
 
-export default OrderSuccess;
+export default RequestBook;

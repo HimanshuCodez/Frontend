@@ -18,13 +18,6 @@ const Banner = () => {
               <p className="text-xl md:text-xl ">
               Here you'll discover a curated selection of books catering to all your interests! Dive into the captivating world of manga, indulge in the magic of K-drama-inspired novels, and explore a variety of genres that ignite your imagination. Whether you're a fan of graphic storytelling or looking for gripping dramas, our store offers something for everyone. Let your reading journey begin here!
 
-
-
-
-
-
-
-
               </p>
               <label className="input input-bordered flex items-center gap-2">
                 <svg

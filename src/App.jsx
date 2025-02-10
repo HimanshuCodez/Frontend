@@ -14,10 +14,11 @@ import { authActions } from './store/auth';
 import Favourites from "./components/Profile/Favourites";
 import UserOrderHistory from "./components/Profile/UserOrderHistory";
 import Settings from "./components/Profile/Settings";
-import AdminBookRequests from "./components/Admin/bookRequest";
+import AdminBookRequest from "./components/Admin/AdminBookRequest";
 import UserBookRequest from "./components/RequestBook";
 import Success from "./components/success";
 import Failed from "./components/Failed";
+
 import AllOrders from "./components/Admin/AllOrders";
 import NotFound from "./components/Additionals.jsx/NotFound";
 import AdminAddBook from "./components/Admin/AddBook";
@@ -50,14 +51,14 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/get-all-books" element={<AllBooks />} />
           <Route path="/recently-added" element={<RecentlyAdded />} />
-          <Route path="/view-book-details" element={<BookDetails />} />
-        
+          <Route path="/view-book-details" element={<BookDetails />} />        
           <Route path="/sign-up" element={<Signup />} />
-          {role === "admin" ? <Route path="/admin/requests" element={<AdminBookRequests />} /> : <Route path="/bookRequest" element={<UserBookRequest />} />}
+          <Route path="/sign-in" element={<Login />} />
+
+          {role === "admin" ? <Route path="/admin/requests" element={<AdminBookRequest />} /> : <Route path="/bookRequest" element={<UserBookRequest/>} />}
           {role === "admin" && <Route path="/add-book" element={<AdminAddBook/>} />}
           {role === "admin" && <Route path="/get-all-orders" element={<AllOrders/>} />}
 
-          <Route path="/sign-in" element={<Login />} />
           <Route path="/sales-report" element={<SalesReport />} />
           <Route path="/update-book/:id" element={<UpdateBook/>} />
           <Route path="/profile" element={<Profile />} >
@@ -65,7 +66,6 @@ const App = () => {
           <Route path="/profile/orderHistory" element={<UserOrderHistory/>}/ >
           <Route path="/profile/settings" element={<Settings/>}/ >
           </Route>
-
           <Route path="/cart" element={<Cart />} />
           <Route path="/success" element={<Success/>} />
           <Route path="/cancel" element={<Failed/>} />

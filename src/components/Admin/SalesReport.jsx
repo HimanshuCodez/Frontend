@@ -20,7 +20,7 @@ const SalesReport = () => {
 
   const fetchSalesReport = async () => {
     try {
-      const response = await axios.get(`/api/v1/sales-report`, {
+      const response = await axios.get("http://localhost:4000/api/v1/sales-report", {
         params: dateRange,
         headers: {
           authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -58,7 +58,7 @@ const SalesReport = () => {
       },
       {
         title: 'Books Sold',
-        value: reportData.totalBooksSold.toString(),
+        value: reportData.totalDeliveredOrders.toString(),
         increase: true,
         percentage: '5%',
         icon: BookOpen
