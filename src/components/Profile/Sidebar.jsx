@@ -118,11 +118,11 @@ const role = useSelector((state)=>state.auth.role)
               </li>
               <li>
                 <Link
-                  to="/profile/settings"
+                  to="/sales-report"
                   className="block p-3 rounded-md hover:bg-gray-700 transition-all duration-300 text-sm font-medium"
                   onClick={() => window.innerWidth < 768 && toggleSidebar()}
                 >
-                  Generate Report
+                  Generate Sales Report
                 </Link>
               </li>
               <li>

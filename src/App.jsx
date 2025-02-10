@@ -22,6 +22,7 @@ import AllOrders from "./components/Admin/AllOrders";
 import NotFound from "./components/Additionals.jsx/NotFound";
 import AdminAddBook from "./components/Admin/AddBook";
 import UpdateBook from "./components/Admin/UpdateBook";
+import SalesReport from "./components/Admin/SalesReport";
 // import Orders from "./components/Orders";
 
 
@@ -57,6 +58,7 @@ const App = () => {
           {role === "admin" && <Route path="/get-all-orders" element={<AllOrders/>} />}
 
           <Route path="/sign-in" element={<Login />} />
+          <Route path="/sales-report" element={<SalesReport />} />
           <Route path="/update-book/:id" element={<UpdateBook/>} />
           <Route path="/profile" element={<Profile />} >
           {role === "user" ? <Route index element={<Favourites/>}/ > : <Route index element={<AllOrders/>}/ >}
