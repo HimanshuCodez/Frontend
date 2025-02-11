@@ -14,7 +14,7 @@ const AdminBookRequests = () => {
 
   const fetchRequests = async () => {
     try {
-      const { data } = await axios.get("http://localhost:4000/api/v1/admin/requests");
+      const { data } = await axios.get("https://backend-h759.onrender.com/api/v1/admin/requests");
       setRequests(data);
     } catch (err) {
       setError("Error fetching book requests.");
@@ -25,7 +25,7 @@ const AdminBookRequests = () => {
 
   const updateStatus = async (id, newStatus) => {
     try {
-      await axios.patch(`http://localhost:4000/api/v1/admin/request/${id}`, { status: newStatus });
+      await axios.patch(`https://backend-h759.onrender.com/api/v1/admin/request/${id}`, { status: newStatus });
       setRequests((prev) =>
         prev.map((req) => (req._id === id ? { ...req, status: newStatus } : req))
       );

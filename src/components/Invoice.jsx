@@ -16,7 +16,7 @@ const OrderSuccess = () => {
         };
 
         const response = await axios.get(
-          "http://localhost:4000/api/v1/get-order-history",
+          "https://backend-h759.onrender.com/api/v1/get-order-history",
           { headers }
         );
         
@@ -45,7 +45,7 @@ const OrderSuccess = () => {
       };
 
       const response = await axios.post(
-        "http://localhost:4000/api/v1/send-invoice",
+        "https://backend-h759.onrender.com/api/v1/send-invoice",
         { order_id: orderId },
         { headers }
       );

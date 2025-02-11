@@ -18,7 +18,7 @@ const AdminAllOrders = () => {
     const fetchOrders = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/v1/get-all-orders",
+          "https://backend-h759.onrender.com/api/v1/get-all-orders",
           { headers }
         );
         setOrders(response.data.data);
@@ -33,7 +33,7 @@ const AdminAllOrders = () => {
 
   const handleStatusChange = async (orderId, newStatus) => {
     try {
-        await axios.put(`http://localhost:4000/api/v1/update-status/${orderId}`, 
+        await axios.put(`https://backend-h759.onrender.com/api/v1/update-status/${orderId}`, 
         { status: newStatus }, // Send status in the body
         { headers });
 

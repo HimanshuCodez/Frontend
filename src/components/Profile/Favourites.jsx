@@ -51,22 +51,18 @@ const Favourites = () => {
   };
 
   return (
-    <div className="p-8  min-h-screen">
-      <h1 className="text-3xl font-semibold text-gray-800  mb-8 text-center">
+    <div className="p-8 min-h-screen bg-gray-50">
+      <h1 className="text-3xl font-semibold text-gray-800 mb-8 text-center">
         Your Favourite Books
       </h1>
       {favourites.length > 0 ? (
-        <div className="grid    lg:pl-44 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {favourites.map((item) => (
-            <div
-              key={item._id}
-              className="flex   flex-col items-center"
-            >
-              <Cards data={item} favourite={true} />{" "}
-              {/* No Remove button here */}
+            <div key={item._id} className="flex flex-col items-center">
+              <Cards data={item} favourite={true} />
               <button
                 onClick={() => handleRemove(item._id)}
-                className="inline-flex -mt-7 items-center text-red-500 hover:text-red-700 transition-colors duration-200"
+                className="mt-4 inline-flex items-center text-red-500 hover:text-red-700 transition-colors duration-200"
               >
                 <FiTrash2 className="w-5 h-5 mr-2" />
                 <span>Remove</span>
@@ -82,11 +78,5 @@ const Favourites = () => {
     </div>
   );
 };
-<button
-  onClick={() => handleRemove(item._id)}
-  className="inline-flex items-center text-red-500 hover:text-red-700 transition-colors duration-200"
->
-  <FiTrash2 className="w-5 h-5 mr-2" />
-  <span>Remove</span>
-</button>;
+
 export default Favourites;

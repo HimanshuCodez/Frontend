@@ -20,7 +20,7 @@ const SalesReport = () => {
 
   const fetchSalesReport = async () => {
     try {
-      const response = await axios.get("http://localhost:4000/api/v1/sales-report", {
+      const response = await axios.get("https://backend-h759.onrender.com/api/v1/sales-report", {
         params: dateRange,
         headers: {
           authorization: `Bearer ${localStorage.getItem("token")}`,

@@ -22,7 +22,7 @@ const RequestBook = () => {
   const fetchRequests = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:4000/api/v1/user-requests", {
+      const res = await axios.get("https://backend-h759.onrender.com/api/v1/user-requests", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setRequests(res.data);
@@ -42,7 +42,7 @@ const RequestBook = () => {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.post(
-        "http://localhost:4000/api/v1/request-book",
+        "https://backend-h759.onrender.com/api/v1/request-book",
         formData,
         { headers: { Authorization: `Bearer ${token}` } }
       );

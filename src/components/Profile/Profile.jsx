@@ -26,10 +26,9 @@ const Profile = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gray-50">
       <Navbar />
-      
-      <div className="flex flex-1 pt-16"> {/* Add pt-16 for navbar space */}
+      <div className="flex flex-1 pt-16">
         {/* Sidebar */}
         <aside className="flex-shrink-0">
           {!profile ? (
@@ -48,7 +47,6 @@ const Profile = () => {
           </div>
         </main>
       </div>
-
       <Footer />
     </div>
   );

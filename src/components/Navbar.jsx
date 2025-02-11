@@ -33,7 +33,7 @@ const Navbar = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:4000/api/v1/search?q=${encodeURIComponent(
+        `https://backend-h759.onrender.com/api/v1/search?q=${encodeURIComponent(
           searchQuery.trim()
         )}`
       );

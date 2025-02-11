@@ -34,7 +34,7 @@ const EditBook = () => {
 
     try {
       const response = await axios.put(
-        "http://localhost:4000/api/v1/update-book",
+        "https://backend-h759.onrender.com/api/v1/update-book",
         bookData,
         { headers }
       );
@@ -62,7 +62,7 @@ const EditBook = () => {
   useEffect(() => {
     const fetchBookData = async () => {
       const response = await axios.get(
-        `http://localhost:4000/api/v1/get-book-by-id/${id}`
+        `https://backend-h759.onrender.com/api/v1/get-book-by-id/${id}`
       );
       setBookData(response.data.data);
     };

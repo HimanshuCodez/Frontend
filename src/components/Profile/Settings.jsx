@@ -16,7 +16,7 @@ const Settings = () => {
     const fetchProfile = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/v1/get-user-info",
+          "https://backend-h759.onrender.com/api/v1/get-user-info",
           { headers }
         );
         setProfileData(response.data);
@@ -35,12 +35,12 @@ const Settings = () => {
 
   const submitAddress = async () => {
     try {
-      await axios.put("http://localhost:4000/api/v1/update-address", value, {
+      await axios.put("https://backend-h759.onrender.com/api/v1/update-address", value, {
         headers,
       });
       toast.success("Updated Address Successfully");
       const updatedResponse = await axios.get(
-        "http://localhost:4000/api/v1/get-user-info",
+        "https://backend-h759.onrender.com/api/v1/get-user-info",
         { headers }
       );
       setProfileData(updatedResponse.data);
