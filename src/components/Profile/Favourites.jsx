@@ -16,7 +16,7 @@ const Favourites = () => {
     const fetchFavourites = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/v1/get-favourites-books",
+          "https://backend-h759.onrender.com/api/v1/get-favourites-books",
           { headers }
         );
         setFavouriteBook(response.data.data);
@@ -32,7 +32,7 @@ const Favourites = () => {
   const handleRemove = async (bookId) => {
     try {
       const response = await axios.put(
-        "http://localhost:4000/api/v1/remove-from-favourite",
+        "https://backend-h759.onrender.com/api/v1/remove-from-favourite",
         {},
         {
           headers: {
@@ -45,6 +45,7 @@ const Favourites = () => {
       if (response.status === 200) {
         setFavouriteBook((prev) => prev.filter((book) => book._id !== bookId));
       }
+      
     } catch (error) {
       console.error("Error removing book from favourites:", error);
     }
