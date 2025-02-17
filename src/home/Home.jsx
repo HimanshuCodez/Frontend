@@ -6,9 +6,9 @@ import RecentlyAdded from "../components/RecentlyAdded";
 import AuthorSlider from "../components/Additionals.jsx/AuthorSlider";
 import SaleSlider from "../components/Additionals.jsx/SaleSlider";
 import Manga from "../components/BookCategory.jsx/Manga";
-import Adult from "../components/BookCategory.jsx/Adult";
 import Kdrama from "../components/BookCategory.jsx/Kdrama";
-import Testimonial from "../components/Additionals.jsx/gifs";
+import Help from "../components/BookCategory.jsx/Help";
+import Testimonial from "../components/Additionals.jsx/Testimonial";
 
 
 const Home = () => {
@@ -19,8 +19,8 @@ const Home = () => {
       <RecentlyAdded />
       <Kdrama/>
       <SaleSlider/>
+      <Help/>
       <Manga/>
-      <Adult/>
       <Testimonial/>
       <AuthorSlider />
       <Footer />

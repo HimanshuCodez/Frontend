@@ -43,13 +43,13 @@ const authors = [
 
 // Slider settings
 const sliderSettings = {
-  
+  dots: true,
   infinite: true,
   speed: 500,
   slidesToShow: 4,
   slidesToScroll: 1,
   swipe: true,
-  swipeToSlide: true, // Allows users to swipe through slides
+  swipeToSlide: true,
   responsive: [
     {
       breakpoint: 1024,
@@ -57,7 +57,6 @@ const sliderSettings = {
         slidesToShow: 2,
         slidesToScroll: 1,
         infinite: true,
-        
       },
     },
     {
@@ -72,28 +71,32 @@ const sliderSettings = {
 
 const AuthorSlider = () => {
   return (
-    <div className="p-8 justify-center items-center bg-gray-50 dark:bg-slate-800 dark:text-white">
+    <div className="p-8 bg-gray-50 dark:bg-slate-800 dark:text-white">
       <h2 className="text-2xl font-semibold text-center mb-6">
         Featured Authors
       </h2>
-      <Slider {...sliderSettings}>
-        {authors.map((author) => (
-          <div
-            key={author.id}
-            className="flex   lg:ml-14 pl-24 flex-col items-center  dark:bg-slate-700 shadow-md rounded-lg p-4 space-y-4"
-          >
-            <img
-              src={author.avatar}
-              alt={author.name}
-              className="w-24 h-24 ml-7 rounded-full object-cover"
-            />
-            <h3 className="text-lg font-semibold">{author.name}</h3>
-            <p className="text-gray-600 dark:text-gray-300">
-              Books Published: {author.books}
-            </p>
-          </div>
-        ))}
-      </Slider>
+      <div className="max-w-6xl mx-auto">
+        <Slider {...sliderSettings}>
+          {authors.map((author) => (
+            <div
+              key={author.id}
+              className="px-4"
+            >
+              <div className="flex flex-col items-center bg-white dark:bg-slate-700 shadow-md rounded-lg p-6 mx-2 h-full">
+                <img
+                  src={author.avatar}
+                  alt={author.name}
+                  className="w-24 h-24 rounded-full object-cover mb-4"
+                />
+                <h3 className="text-lg font-semibold text-center">{author.name}</h3>
+                <p className="text-gray-600 dark:text-gray-300 text-center mt-2">
+                  Books Published: {author.books}
+                </p>
+              </div>
+            </div>
+          ))}
+        </Slider>
+      </div>
     </div>
   );
 };

@@ -6,7 +6,7 @@ import axios from "axios";
 import Cards from "../Cards";
 import Loader from "../Loader/Loader";
 
-const Adult = () => {
+const Help = () => {
   const [Data, setData] = useState();
 
   useEffect(() => {
@@ -87,4 +87,4 @@ const Adult = () => {
   );
 };
 
-export default Adult;
+export default Help;
