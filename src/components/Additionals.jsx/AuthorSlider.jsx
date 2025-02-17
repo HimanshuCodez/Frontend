@@ -30,13 +30,13 @@ const authors = [
   {
     id: 5,
     name: "Mark Twain",
-    avatar: "https://via.placeholder.com/150/000000/FFFFFF?text=MT",
+    avatar: "https://d2g9wbak88g7ch.cloudfront.net/authorimages/arundhatistory_647_100316054702.jpg",
     books: 30,
   },
   {
     id: 6,
     name: "Leo Tolstoy",
-    avatar: "https://via.placeholder.com/150/800080/FFFFFF?text=LT",
+    avatar: "https://d2g9wbak88g7ch.cloudfront.net/authorimages/dillian.jpg",
     books: 35,
   },
 ];
