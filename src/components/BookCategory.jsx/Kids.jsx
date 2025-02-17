@@ -64,7 +64,7 @@ const Adult = () => {
     <>
       <div className=" mt-8 max-w-screen-2xl container mx-auto md:px-20 px-4">
         <div>
-          <h1 className="font-semibold text-xl pb-2">Adult 18+</h1>
+          <h1 className="font-semibold text-xl pb-2">Self Help</h1>
         </div>
 
         <div>
@@ -75,7 +75,7 @@ const Adult = () => {
           )}
           <Slider {...settings}>
             {Data &&
-              Data.filter((item) => item.category === "adult").map((item, i) => (
+              Data.filter((item) => item.category === "help").map((item, i) => (
                 <div key={i}>
                   <Cards data={item} key={item.id} />
                 </div>
