@@ -8,7 +8,6 @@ import Loader from './Loader/Loader';
 const AllBook = () => {
   const [Data, setData] = useState();
   useEffect(() => {
-    // Fetch data from API
     const fetch = async () => {
       const response = await axios.get(
         "https://backend-h759.onrender.com/api/v1/get-all-books"

@@ -9,7 +9,8 @@ import store from "./store/index.js";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <BrowserRouter>
-      <div className="dark:bg-slate-900 dark:text-white">
+    {/* className="dark:bg-slate-900 dark:text-white" */}
+      <div >
         <App />
       </div>
     </BrowserRouter>
